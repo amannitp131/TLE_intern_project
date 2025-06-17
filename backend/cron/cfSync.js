@@ -95,7 +95,7 @@ async function fetchAndStoreCFDataForAllStudents() {
 // Schedule the task to run daily at 2 AM
 cron.schedule("0 2 * * *", fetchAndStoreCFDataForAllStudents);
 
-// 🔁 TEMP: Trigger immediately for testing
+// Trigger immediately for testing
 fetchAndStoreCFDataForAllStudents();
 
 export default fetchAndStoreCFDataForAllStudents;
