@@ -1,17 +1,26 @@
 import express from "express";
-import Student from "../config/models/Student.js";
 import { Parser } from "json2csv";
+import Student from "../config/models/Student.js";
 
 const router = express.Router();
 
-router.get("/students/export", async (req, res) => {
-    const students = await Student.find().lean();
-    const fields = ["name", "email", "phone", "handle", "current_rating", "max_rating", "last_synced", "auto_email_disabled", "reminder_count"];
-    const parser = new Parser({ fields });
-    const csv = parser.parse(students);
-    res.header("Content-Type", "text/csv");
-    res.attachment("students.csv");
-    res.send(csv);
+/////////////////////////////////////////
+// Download entire student dataset as csv
+/////////////////////////////////////////
+
+router.get("/download-students-csv", async (req, res) => {
+    try {
+        const students = await Student.find().lean();
+        const fields = ["name", "email", "phone", "cf_handle", "currentRating", "maximumRating"];
+        const parser = new Parser({ fields });
+        const csv = parser.parse(students);
+
+        res.header("Content-Type", "text/csv");
+        res.attachment("students.csv");
+        res.send(csv);
+    } catch (err) {
+        res.status(500).send("❌ Error: " + err.message);
+    }
 });
 
 export default router;

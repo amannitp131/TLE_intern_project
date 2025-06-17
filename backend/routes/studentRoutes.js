@@ -12,24 +12,60 @@ router.get("/", async (req, res) => {
     res.json(students);
 });
 
-// Add student
-router.post("/", async (req, res) => {
-    const student = new Student(req.body);
-    await student.save();
-    res.status(201).json(student);
+//////////////////////////////////
+/// Add student //////////////////
+/////////////////////////////////
+
+router.post("/add-student", async (req, res) => {
+    try {
+        const { name, email, phone, cf_handle } = req.body;
+        const newStudent = new Student({
+            name,
+            email,
+            phone,
+            cf_handle
+        });
+        await newStudent.save();
+        res.send("✅ Student added");
+    } catch (err) {
+        res.status(500).send("❌ Error: " + err.message);
+    }
 });
 
-// Edit student
-router.put("/:id", async (req, res) => {
-    const student = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(student);
+
+////////////////////////////////////
+// Edit student by Codeforces handle
+////////////////////////////////////
+router.put("/edit-student-by-handle/:cf_handle", async (req, res) => {
+    try {
+        const { name, email, phone } = req.body;
+        const updatedStudent = await Student.findOneAndUpdate(
+            { cf_handle: req.params.cf_handle },
+            { name, email, phone },
+            { new: true }
+        );
+        if (!updatedStudent) return res.status(404).send("❌ Student not found");
+        res.send("✅ Student updated");
+    } catch (err) {
+        res.status(500).send("❌ Error: " + err.message);
+    }
 });
 
-// Delete student
-router.delete("/:id", async (req, res) => {
-    await Student.findByIdAndDelete(req.params.id);
-    res.json({ message: "Deleted" });
+//////////////////////////////////////
+// Delete student by Codeforces handle
+//////////////////////////////////////
+
+
+router.delete("/delete-student-by-handle/:cf_handle", async (req, res) => {
+    try {
+        const deletedStudent = await Student.findOneAndDelete({ cf_handle: req.params.cf_handle });
+        if (!deletedStudent) return res.status(404).send("❌ Student not found");
+        res.send("✅ Student deleted");
+    } catch (err) {
+        res.status(500).send("❌ Error: " + err.message);
+    }
 });
+
 
 // Student profile view
 router.get("/:id", async (req, res) => {
