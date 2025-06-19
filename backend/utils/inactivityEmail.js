@@ -32,7 +32,7 @@ const transporter = nodemailer.createTransport({
 
       if (!recentSubmission) {
         const mailOptions = {
-          from: '"College Bot" <hellocollege143@gmail.com>',
+          from: '"College Bot" <t6201356@gmail.com>',
           to: student.email,
           subject: "We Miss You on Codeforces!",
           text: `Hi ${student.name},\n\nIt looks like you haven't submitted any problems on Codeforces in the past week. Keep practicing to improve your skills!\n\nBest,\nYour College Team`,
