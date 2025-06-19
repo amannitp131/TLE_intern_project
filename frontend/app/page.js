@@ -28,11 +28,11 @@ export default function DashboardPage() {
   const totalStudents = students.length;
   const avgContests = Math.round(
     students.reduce((sum, s) => sum + (s.cf_contests || 0), 0) /
-      (students.length || 1)
+    (students.length || 1)
   );
   const avgProblems = Math.round(
     students.reduce((sum, s) => sum + (s.cf_problems_solved || 0), 0) /
-      (students.length || 1)
+    (students.length || 1)
   );
   const minRating = Math.min(...students.map((s) => s.current_rating || 0));
   const maxRating = Math.max(...students.map((s) => s.current_rating || 0));
@@ -104,33 +104,37 @@ export default function DashboardPage() {
           </select>
         </div>
 
-        <div>
-          <h2 className="text-xl font-semibold mb-2">{getFilterTitle()}</h2>
-          <table className="w-full border text-sm md:text-base">
-            <thead className={tableHeadBg}>
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow overflow-x-auto p-4 border border-gray-200 dark:border-gray-700">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">{getFilterTitle()}</h2>
+          <table className="min-w-full text-sm md:text-base text-left">
+            <thead className={`bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 ${tableHeadBg}`}>
               <tr>
-                <th className="p-2">#</th>
-                <th className="p-2">Name</th>
-                <th className="p-2">Handle</th>
-                <th className="p-2">Contests</th>
-                <th className="p-2">Problems</th>
-                <th className="p-2">Rating</th>
+                <th className="p-3 font-medium">#</th>
+                <th className="p-3 font-medium">Name</th>
+                <th className="p-3 font-medium">Handle</th>
+                <th className="p-3 font-medium text-center">Contests</th>
+                <th className="p-3 font-medium text-center">Problems</th>
+                <th className="p-3 font-medium text-center">Rating</th>
               </tr>
             </thead>
             <tbody>
               {sortedLeaderboard.map((s, i) => (
-                <tr key={s._id || i} className="border-t text-center">
-                  <td className="p-2">{getMedal(i)}</td>
-                  <td className="p-2">{s.name}</td>
-                  <td className="p-2">{s.cf_handle}</td>
-                  <td className="p-2">{s.cf_contests || 0}</td>
-                  <td className="p-2">{s.cf_problems_solved || 0}</td>
-                  <td className="p-2">{s.current_rating || 0}</td>
+                <tr
+                  key={s._id || i}
+                  className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+                >
+                  <td className="p-3">{getMedal(i)}</td>
+                  <td className="p-3">{s.name}</td>
+                  <td className="p-3">{s.cf_handle}</td>
+                  <td className="p-3 text-center">{s.cf_contests || 0}</td>
+                  <td className="p-3 text-center">{s.cf_problems_solved || 0}</td>
+                  <td className="p-3 text-center">{s.current_rating || 0}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
       </main>
     </div>
   );
