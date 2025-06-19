@@ -15,7 +15,7 @@ export default function StudentTable() {
   const [modalOpen, setModalOpen] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [savedTheme, setSavedTheme] = useState("light");
-   const [theme, setTheme] = useState("0");
+  const [theme, setTheme] = useState("0");
   const [showAddCronModal, setShowAddCronModal] = useState(false);
   const [showViewCronModal, setShowViewCronModal] = useState(false);
 
@@ -23,8 +23,8 @@ export default function StudentTable() {
     const theme = localStorage.getItem("theme") === "1" ? "dark" : "light";
     setSavedTheme(theme);
   }, []);
-  
-   useEffect(() => {
+
+  useEffect(() => {
     const stored = localStorage.getItem("theme");
     setTheme(stored || "0");
   }, []);
@@ -207,99 +207,97 @@ export default function StudentTable() {
         </div>
       </div>
 
-    <div className={`border rounded-xl overflow-hidden shadow-lg ${borderColor} ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}>
-  <table className="min-w-full text-sm text-left">
-    <thead className={`${tableHeadBg} ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}>
-      <tr>
-        {columns.map((col) => (
-          <th
-            key={col.key}
-            className={`px-5 py-3 text-xs font-semibold tracking-wider uppercase ${borderColor} border-b`}
-          >
-            {col.header}
-          </th>
-        ))}
-        <th className={`px-5 py-3 text-xs font-semibold tracking-wider uppercase ${borderColor} border-b`}>
-          Actions
-        </th>
-      </tr>
-    </thead>
-    <tbody className={`${tableBodyBg} ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}>
-      {students.length === 0 ? (
-        <tr>
-          <td
-            colSpan={columns.length + 1}
-            className={`text-center p-6 ${theme === "1" ? "text-gray-300" : "text-gray-500"}`}
-          >
-            No students found.
-          </td>
-        </tr>
-      ) : (
-        students.map((student, idx) => (
-          <tr
-            key={student._id}
-            className={`transition-all duration-300 ${
-              theme === "1"
-                ? idx % 2 === 0
-                  ? "bg-gray-900"
-                  : "bg-black"
-                : idx % 2 === 0
-                ? "bg-gray-50"
-                : "bg-white"
-            } `}
-          >
-            {columns.map((col) => (
-              <td
-                key={col.key}
-                className={`px-5 py-3 ${col.key === "cf_handle" ? getRatingClass(student.current_rating) : ""}`}
-              >
-                {student[col.key]}
-              </td>
-            ))}
-            <td className="px-5 py-3 flex justify-center gap-3">
-              <Link href={`/students/${student._id}`}>
-                <button
-                  className={`p-2 rounded-full hover:bg-blue-200 transition ${
-                    theme === "1"
-                      ? "bg-blue-900 text-blue-300 hover:bg-blue-800"
-                      : "bg-blue-100 text-blue-600"
-                  }`}
-                  title="View"
-                >
-                  <Eye className="w-4 h-4" />
-                </button>
-              </Link>
+      <div className={`border rounded-xl overflow-hidden shadow-lg ${borderColor} ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}>
+        <div className="overflow-x-auto">
+          <table className="min-w-[600px] w-full text-xs sm:text-sm text-left">
+            <thead className={`${tableHeadBg} ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}>
+              <tr>
+                {columns.map((col) => (
+                  <th
+                    key={col.key}
+                    className={`px-3 sm:px-5 py-3 text-xs font-semibold tracking-wider uppercase ${borderColor} border-b`}
+                  >
+                    {col.header}
+                  </th>
+                ))}
+                <th className={`px-3 sm:px-5 py-3 text-xs font-semibold tracking-wider uppercase ${borderColor} border-b`}>
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className={`${tableBodyBg} ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}>
+              {students.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={columns.length + 1}
+                    className={`text-center p-6 ${theme === "1" ? "text-gray-300" : "text-gray-500"}`}
+                  >
+                    No students found.
+                  </td>
+                </tr>
+              ) : (
+                students.map((student, idx) => (
+                  <tr
+                    key={student._id}
+                    className={`transition-all duration-300 ${theme === "1"
+                      ? idx % 2 === 0
+                        ? "bg-gray-900"
+                        : "bg-black"
+                      : idx % 2 === 0
+                        ? "bg-gray-50"
+                        : "bg-white"
+                      } `}
+                  >
+                    {columns.map((col) => (
+                      <td
+                        key={col.key}
+                        className={`px-3 sm:px-5 py-3 ${col.key === "cf_handle" ? getRatingClass(student.current_rating) : ""}`}
+                      >
+                        {student[col.key]}
+                      </td>
+                    ))}
+                    <td className="px-3 sm:px-5 py-3 flex justify-center gap-2 sm:gap-3">
+                      <Link href={`/students/${student._id}`}>
+                        <button
+                          className={`p-2 rounded-full hover:bg-blue-200 transition ${theme === "1"
+                            ? "bg-blue-900 text-blue-300 hover:bg-blue-800"
+                            : "bg-blue-100 text-blue-600"
+                            }`}
+                          title="View"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                      </Link>
 
-              <button
-                onClick={() => openEditModal(student)}
-                className={`p-2 rounded-full hover:bg-yellow-200 transition ${
-                  theme === "1"
-                    ? "bg-yellow-900 text-yellow-300 hover:bg-yellow-800"
-                    : "bg-yellow-100 text-yellow-700"
-                }`}
-                title="Edit"
-              >
-                <Pencil className="w-4 h-4" />
-              </button>
+                      <button
+                        onClick={() => openEditModal(student)}
+                        className={`p-2 rounded-full hover:bg-yellow-200 transition ${theme === "1"
+                          ? "bg-yellow-900 text-yellow-300 hover:bg-yellow-800"
+                          : "bg-yellow-100 text-yellow-700"
+                          }`}
+                        title="Edit"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </button>
 
-              <button
-                onClick={() => handleDelete(student)}
-                className={`p-2 rounded-full hover:bg-red-200 transition ${
-                  theme === "1"
-                    ? "bg-red-900 text-red-300 hover:bg-red-800"
-                    : "bg-red-100 text-red-600"
-                }`}
-                title="Delete"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </td>
-          </tr>
-        ))
-      )}
-    </tbody>
-  </table>
-</div>
+                      <button
+                        onClick={() => handleDelete(student)}
+                        className={`p-2 rounded-full hover:bg-red-200 transition ${theme === "1"
+                          ? "bg-red-900 text-red-300 hover:bg-red-800"
+                          : "bg-red-100 text-red-600"
+                          }`}
+                        title="Delete"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
 
       {modalOpen && (
