@@ -22,7 +22,7 @@ export default function Sidebar({ isOpen, onClose }) {
   return (
     <aside
       className={`fixed md:static top-0 left-0 min-h-screen w-64 z-50 transform
-        ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}
+        write css like thia  ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}
         p-6 border-r border-gray-200 dark:border-gray-700
         overflow-y-auto transition-transform duration-300
         ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}

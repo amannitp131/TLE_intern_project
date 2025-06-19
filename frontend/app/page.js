@@ -5,6 +5,12 @@ export default function DashboardPage() {
   const [students, setStudents] = useState([]);
   const [filter, setFilter] = useState("rating");
   const [savedTheme, setSavedTheme] = useState("light");
+  const [theme, setTheme] = useState("0");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("theme");
+    setTheme(stored || "0");
+  }, []);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -125,14 +131,14 @@ export default function DashboardPage() {
           </select>
         </div>
 
-        <div className="w-full bg-white dark:bg-gray-900 rounded-xl shadow p-2 sm:p-4 border border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
+        <div className={`w-full rounded-xl shadow p-2 sm:p-4 border ${theme === "1" ? "bg-black text-white border-gray-700" : "bg-white text-black border-gray-200"}`}>
+          <h2 className={`text-xl font-semibold mb-4 ${theme === "1" ? "text-white" : "text-gray-800"}`}>
             {getFilterTitle()}
           </h2>
-          <div className="w-full overflow-x-auto">
+          <div className={`w-full overflow-x-auto ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}>
             <table className="w-full text-xs sm:text-sm md:text-base text-left">
               <thead
-                className={`bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 ${tableHeadBg}`}
+                className={`bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 ${tableHeadBg} ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}
               >
                 <tr>
                   <th className="p-3 font-medium">#</th>
@@ -147,7 +153,7 @@ export default function DashboardPage() {
                 {sortedLeaderboard.map((s, i) => (
                   <tr
                     key={s._id || i}
-                    className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+                    className={`border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}
                   >
                     <td className="p-3">{getMedal(i)}</td>
                     <td className="p-3">{s.name}</td>
