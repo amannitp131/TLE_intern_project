@@ -7,8 +7,7 @@ You can try out StudManage live at
 
 ## Video Demo
 
-Watch a walkthrough of StudManage:  
-[![StudManage Video Demo](https://img.youtube.com/vi/1tyskw-Nc9F5cUxXKBh3O8Sx1Ecpj1vJQ/0.jpg)](https://drive.google.com/file/d/1tyskw-Nc9F5cUxXKBh3O8Sx1Ecpj1vJQ/view?usp=sharing)
+[![Watch Video Demo](https://img.shields.io/badge/Watch%20Video-Demo-red?style=for-the-badge&logo=youtube)](https://drive.google.com/file/d/1tyskw-Nc9F5cUxXKBh3O8Sx1Ecpj1vJQ/view?usp=sharing)
 
 
 # StudManage
