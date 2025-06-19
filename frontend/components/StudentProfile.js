@@ -104,7 +104,8 @@ useEffect(() => {
 
       <div className={`p-4 rounded shadow ${sectionBg}`}>
         <h3 className="text-lg font-medium mb-2">Submission Heatmap</h3>
-        <SubmissionHeatmap />
+        {/* <SubmissionHeatmap cf_handle={student.cf_handle} range={100} /> */}
+
       </div>
     </div>
   );
