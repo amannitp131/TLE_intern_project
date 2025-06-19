@@ -5,6 +5,7 @@ import ExportCSVButton from "./UI/ExportCSVButton";
 import StudentFormModal from "../components/StudentFormModal";
 import AddCronModal from "../components/UI/AddCronModal"
 import ViewCronModal from "../components/UI/ViewCronModal"
+import { Eye, Pencil, Trash2 } from "lucide-react";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -14,12 +15,18 @@ export default function StudentTable() {
   const [modalOpen, setModalOpen] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [savedTheme, setSavedTheme] = useState("light");
+   const [theme, setTheme] = useState("0");
   const [showAddCronModal, setShowAddCronModal] = useState(false);
   const [showViewCronModal, setShowViewCronModal] = useState(false);
 
   useEffect(() => {
     const theme = localStorage.getItem("theme") === "1" ? "dark" : "light";
     setSavedTheme(theme);
+  }, []);
+  
+   useEffect(() => {
+    const stored = localStorage.getItem("theme");
+    setTheme(stored || "0");
   }, []);
 
   const excludedKeys = ["_id", "__v", "cf_contests", "cf_problems_solved", "current_rank"];
@@ -95,24 +102,24 @@ export default function StudentTable() {
   };
 
   const handleAddcron = async () => {
-  setLoading(true);
-  setError("");
-  try {
-    const res = await fetch("/api/inactivity/add-cf-cron", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ time }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to add cron");
-    setTime("");
-    // Optionally call a parent callback or close the modal
-    onClose();
-  } catch (err) {
-    setError(err.message);
-  }
-  setLoading(false);
-};
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/inactivity/add-cf-cron", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ time }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to add cron");
+      setTime("");
+      // Optionally call a parent callback or close the modal
+      onClose();
+    } catch (err) {
+      setError(err.message);
+    }
+    setLoading(false);
+  };
 
   const openAddModal = () => {
     setSelected(null);
@@ -200,59 +207,100 @@ export default function StudentTable() {
         </div>
       </div>
 
-      <div className={`border rounded-lg overflow-x-auto shadow ${borderColor}`}>
-        <table className="min-w-full text-sm text-left border-collapse">
-          <thead className={tableHeadBg}>
-            <tr className="text-center">
-              {columns.map((col) => (
-                <th key={col.key} className={`p-3 border ${borderColor}`}>
-                  {col.header}
-                </th>
-              ))}
-              <th className={`p-3 text-center border ${borderColor}`}>Actions</th>
-            </tr>
-          </thead>
-          <tbody className={tableBodyBg}>
-            {students.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={columns.length + 1}
-                  className={`text-center p-6 ${savedTheme === "dark" ? "text-gray-300" : "text-gray-500"}`}
+    <div className={`border rounded-xl overflow-hidden shadow-lg ${borderColor} ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}>
+  <table className="min-w-full text-sm text-left">
+    <thead className={`${tableHeadBg} ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}>
+      <tr>
+        {columns.map((col) => (
+          <th
+            key={col.key}
+            className={`px-5 py-3 text-xs font-semibold tracking-wider uppercase ${borderColor} border-b`}
+          >
+            {col.header}
+          </th>
+        ))}
+        <th className={`px-5 py-3 text-xs font-semibold tracking-wider uppercase ${borderColor} border-b`}>
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody className={`${tableBodyBg} ${theme === "1" ? "bg-black text-white" : "bg-white text-black"}`}>
+      {students.length === 0 ? (
+        <tr>
+          <td
+            colSpan={columns.length + 1}
+            className={`text-center p-6 ${theme === "1" ? "text-gray-300" : "text-gray-500"}`}
+          >
+            No students found.
+          </td>
+        </tr>
+      ) : (
+        students.map((student, idx) => (
+          <tr
+            key={student._id}
+            className={`transition-all duration-300 ${
+              theme === "1"
+                ? idx % 2 === 0
+                  ? "bg-gray-900"
+                  : "bg-black"
+                : idx % 2 === 0
+                ? "bg-gray-50"
+                : "bg-white"
+            } `}
+          >
+            {columns.map((col) => (
+              <td
+                key={col.key}
+                className={`px-5 py-3 ${col.key === "cf_handle" ? getRatingClass(student.current_rating) : ""}`}
+              >
+                {student[col.key]}
+              </td>
+            ))}
+            <td className="px-5 py-3 flex justify-center gap-3">
+              <Link href={`/students/${student._id}`}>
+                <button
+                  className={`p-2 rounded-full hover:bg-blue-200 transition ${
+                    theme === "1"
+                      ? "bg-blue-900 text-blue-300 hover:bg-blue-800"
+                      : "bg-blue-100 text-blue-600"
+                  }`}
+                  title="View"
                 >
-                  No students found.
-                </td>
-              </tr>
-            ) : (
-              students.map((student) => (
-                <tr
-                  key={student._id}
-                  className={`border-t text-center transition ${hoverRow} ${borderColor}`}
-                >
-                  {columns.map((col) => (
-                    <td
-                      key={col.key}
-                      className={`p-3 ${col.key === "cf_handle" ? getRatingClass(student.current_rating) : ""}`}
-                    >
-                      {student[col.key]}
-                    </td>
-                  ))}
-                  <td className="p-3 space-x-2">
-                    <Link href={`/students/${student._id}`}>
-                      <button className="text-blue-500 hover:underline">View</button>
-                    </Link>
-                    <button onClick={() => openEditModal(student)} className="text-yellow-500 hover:underline">
-                      Edit
-                    </button>
-                    <button onClick={() => handleDelete(student)} className="text-red-600 hover:underline">
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+                  <Eye className="w-4 h-4" />
+                </button>
+              </Link>
+
+              <button
+                onClick={() => openEditModal(student)}
+                className={`p-2 rounded-full hover:bg-yellow-200 transition ${
+                  theme === "1"
+                    ? "bg-yellow-900 text-yellow-300 hover:bg-yellow-800"
+                    : "bg-yellow-100 text-yellow-700"
+                }`}
+                title="Edit"
+              >
+                <Pencil className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={() => handleDelete(student)}
+                className={`p-2 rounded-full hover:bg-red-200 transition ${
+                  theme === "1"
+                    ? "bg-red-900 text-red-300 hover:bg-red-800"
+                    : "bg-red-100 text-red-600"
+                }`}
+                title="Delete"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
+
 
       {modalOpen && (
         <StudentFormModal
