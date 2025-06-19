@@ -12,11 +12,7 @@ StudManage is a full-stack web application for managing student information. Thi
 backend/
 ├── config/
 │   ├── models/
-│   │   ├── Contest.js
-│   │   ├── ProblemSolved.js
-│   │   ├── Setting.js
 │   │   ├── Student.js
-│   │   ├── Submission.js
 │   │   └── db.js
 │   └── cron/
 │       └── cfSync.js

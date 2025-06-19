@@ -1,6 +1,9 @@
 import Student from "../config/models/Student.js";
 import nodemailer from "nodemailer";
 import axios from "axios";
+import express from "express";
+
+const router = express.Router();
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -13,7 +16,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendInactivityEmails() {
+ async function sendInactivityEmails() {
   const students = await Student.find({ auto_email_disabled: false });
   const now = Date.now() / 1000; 
   const sevenDays = 7 * 24 * 60 * 60;
@@ -50,3 +53,79 @@ export async function sendInactivityEmails() {
     }
   }
 }
+
+////////////////////////
+//  Reminder email count
+///////////////////////
+router.get("/reminder-count/:id", async (req, res) => {
+  try {
+    const student = await Student.findById(
+      req.params.id,
+      "name email cf_handle reminder_count"
+    );
+
+    if (!student) {
+      return res.status(404).json({ error: "Student not found" });
+    }
+
+    res.json({
+      name: student.name,
+      email: student.email,
+      cf_handle: student.cf_handle,
+      reminder_count: student.reminder_count || 0,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch reminder count" });
+  }
+});
+
+
+//////////////////////////////////////////
+// Enable/disable auto-email for a student
+/////////////////////////////////////////
+router.patch("/auto-email/:id", async (req, res) => {
+  const { id } = req.params;
+  const { disable } = req.body;
+
+  if (typeof disable !== "boolean") {
+    return res.status(400).json({ error: "`disable` must be true or false" });
+  }
+
+  try {
+    const student = await Student.findById(id);
+    if (!student) {
+      return res.status(404).json({ error: "Student not found" });
+    }
+
+    student.auto_email_disabled = disable;
+    await student.save();
+
+    res.json({
+      message: `Auto email has been ${disable ? "disabled" : "enabled"} for ${student.name}`,
+      auto_email_disabled: student.auto_email_disabled,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update auto email setting" });
+  }
+});
+
+/////////////////////////////////////////////////
+// Fetch auto email ebanbled or disabled for user
+////////////////////////////////////////////////
+
+router.get("/fetch-auto-email/:id", async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id, "name auto_email_disabled");
+    if (!student) {
+      return res.status(404).json({ error: "Student not found" });
+    }
+    res.json({
+      name: student.name,
+      auto_email_disabled: student.auto_email_disabled,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch auto email setting" });
+  }
+});
+
+export { router, sendInactivityEmails };
