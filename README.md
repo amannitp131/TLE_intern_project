@@ -170,7 +170,7 @@ http://localhost:5000/api/
       "current_rating": 1253,
       "max_rating": 1253
     }
-    // ...
+    
   ]
   ```
 
@@ -219,7 +219,7 @@ http://localhost:5000/api/
       "current_rating": 1253,
       "max_rating": 1253
     }
-    // ...
+    
   ]
   ```
 
@@ -237,7 +237,7 @@ http://localhost:5000/api/
       "cf_handle": "aman13nitp",
       "perDay": 1.7
     }
-    // ...
+    
   ]
   ```
 
@@ -263,7 +263,7 @@ http://localhost:5000/api/
         "ratingChange": 351,
         "time": "2024-06-03T15:00:00.000Z"
       }
-      // ...
+      
     ]
   }
   ```
@@ -298,7 +298,7 @@ http://localhost:5000/api/
     "submissionHeatmap": {
       "2024-06-01": 3,
       "2024-06-02": 1
-      // ...
+      
     }
   }
   ```
