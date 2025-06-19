@@ -27,15 +27,15 @@ app.use("/api/inactivity", inactivityRouter);
 
 connectDB();
 
-// setInterval(() => {
-//     sendInactivityEmails().catch(err => {
-//         console.error("Interval email error:", err.message);
-//     });
-// }, 24 * 60 * 60 * 1000);
+setInterval(() => {
+    sendInactivityEmails().catch(err => {
+        console.error("Interval email error:", err.message);
+    });
+}, 24 * 60 * 60 * 1000);
 
-// sendInactivityEmails().catch(err => {
-//     console.error("Startup email error:", err.message);
-// });
+sendInactivityEmails().catch(err => {
+    console.error("Startup email error:", err.message);
+});
 
 
 
