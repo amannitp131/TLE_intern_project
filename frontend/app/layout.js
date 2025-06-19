@@ -37,7 +37,9 @@ export default function RootLayout({ children }) {
 
             <Link href="/" passHref>
               <h1 className="text-xl font-bold cursor-pointer hover:text-blue-500 transition-colors">
-                Student Management System
+                <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500 drop-shadow-[2px_2px_1px_rgba(0,0,0,0.4)] transform scale-105">
+                  TLE SEES
+                </span>
               </h1>
             </Link>
 
