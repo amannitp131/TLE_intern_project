@@ -1,3 +1,10 @@
+## Live Demo
+
+You can try out StudManage live at  
+[![StudManage Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Now-blue?style=for-the-badge&logo=vercel)](https://tlesees.vercel.app/)
+
+---
+
 # StudManage
 
 StudManage is a full-stack web application for managing student information. This project is organized into two main parts: a backend (Node.js/Express) and a frontend (Next.js/React).
