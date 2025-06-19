@@ -6,10 +6,11 @@ export default function DarkModeToggle() {
   const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
-    // On mount, set theme from localStorage
+    // On mount, set theme from localStorage or default to dark
     const stored = localStorage.getItem("theme");
-    if (stored === "1") {
+    if (stored === null || stored === "1") {
       document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "1");
       setIsDark(true);
     } else {
       document.documentElement.classList.remove("dark");
