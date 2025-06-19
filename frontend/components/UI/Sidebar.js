@@ -33,7 +33,7 @@ export default function Sidebar({ isOpen, onClose }) {
         </button>
       </div>
 
-      <h2 className="text-2xl font-semibold mb-8">Navigation</h2>
+      
 
       <nav className="flex flex-col gap-2">
         {navItems.map((item) => {

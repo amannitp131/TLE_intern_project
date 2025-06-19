@@ -190,7 +190,7 @@ export default function StudentProfilePage() {
 <div className={`mb-6 rounded-2xl p-6 shadow-lg border backdrop-blur-md transition-all duration-300 
   ${theme === "1" ? "bg-gray-800/50 border-gray-700 text-white" : "bg-white/80 border-gray-200 text-gray-900"}`}>
   
-  <h2 className="text-3xl font-semibold mb-4 text-indigo-500">{student.name} Profile</h2>
+  <h2 className="text-3xl font-semibold mb-4 text-indigo-500">{`${student.name}'s Profile`}</h2>
 
   <div className="space-y-2 text-base leading-relaxed">
     {student.email && (
@@ -205,49 +205,43 @@ export default function StudentProfilePage() {
       <p><span className="font-medium text-gray-500">CF Handle:</span> {student.cf_handle}</p>
     )}
 
-    {student.current_rating && (
-      <p>
-        <span className="font-medium text-gray-500">Current Rating:</span> {student.current_rating}
-        {student.current_rank && (
-          <span className="ml-1 text-sm text-gray-400">({student.current_rank})</span>
-        )}
-      </p>
-    )}
-
-    {student.max_rating && (
-      <p>
-        <span className="font-medium text-gray-500">Max Rating:</span> {student.max_rating}
-        {student.max_rank && (
-          <span className="ml-1 text-sm text-gray-400">({student.max_rank})</span>
-        )}
-      </p>
-    )}
-
-    {student.cf_contests && (
-      <p><span className="font-medium text-gray-500">Contests:</span> {student.cf_contests}</p>
-    )}
-
-    {student.cf_problems_solved && (
-      <p><span className="font-medium text-gray-500">Problems Solved:</span> {student.cf_problems_solved}</p>
-    )}
-
-    {student.cf_handle && (
-      <p>
-  
-  <a
-    href={`https://codeforces.com/profile/${student.cf_handle}`}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <button
-      className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 font-medium transition"
-      type="button"
+   
+<div className="flex flex-wrap gap-4 my-4">
+  <div className="flex-1 min-w-[150px] bg-blue-100 text-blue-800 rounded-lg p-4 shadow text-center">
+    <div className="text-sm font-medium">Current Rating</div>
+    <div className="text-xl font-bold">{student.current_rating} <span className="text-xs">({student.current_rank})</span></div>
+  </div>
+  <div className="flex-1 min-w-[150px] bg-green-100 text-green-800 rounded-lg p-4 shadow text-center">
+    <div className="text-sm font-medium">Max Rating</div>
+    <div className="text-xl font-bold">{student.max_rating} <span className="text-xs">({student.max_rank})</span></div>
+  </div>
+  <div className="flex-1 min-w-[150px] bg-yellow-100 text-yellow-800 rounded-lg p-4 shadow text-center">
+    <div className="text-sm font-medium">Contests</div>
+    <div className="text-xl font-bold">{student.cf_contests}</div>
+  </div>
+  <div className="flex-1 min-w-[150px] bg-purple-100 text-purple-800 rounded-lg p-4 shadow text-center">
+    <div className="text-sm font-medium">Problems Solved</div>
+    <div className="text-xl font-bold">{student.cf_problems_solved}</div>
+  </div>
+  <div className="flex items-center">
+    <a
+      href={`https://codeforces.com/profile/${student.cf_handle}`}
+      target="_blank"
+      rel="noopener noreferrer"
     >
-      View CF Profile
-    </button>
-  </a>
-</p>
-    )}
+      <button
+        className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold shadow hover:bg-blue-700 transition"
+        type="button"
+      >
+        View Profile
+      </button>
+    </a>
+  </div>
+</div>
+  
+
+   
+   
   </div>
 </div>
 
